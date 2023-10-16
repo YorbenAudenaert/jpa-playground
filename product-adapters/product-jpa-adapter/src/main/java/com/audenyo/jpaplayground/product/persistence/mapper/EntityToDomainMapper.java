@@ -1,9 +1,11 @@
-package com.audenyo.jpaplayground.mapper;
+package com.audenyo.jpaplayground.product.persistence.mapper;
 
-import com.audenyo.jpaplayground.domain.ProductAttributeEntity;
-import com.audenyo.jpaplayground.domain.ProductEntity;
+import com.audenyo.jpaplayground.product.domain.Category;
+import com.audenyo.jpaplayground.product.persistence.domain.ProductAttributeEntity;
+import com.audenyo.jpaplayground.product.persistence.domain.ProductEntity;
 import com.audenyo.jpaplayground.product.domain.Product;
 import com.audenyo.jpaplayground.product.domain.ProductAttribute;
+import com.audenyo.jpaplayground.product.persistence.domain.category.CategoryEntity;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,6 +19,7 @@ public class EntityToDomainMapper {
         if (entity.getProductAttributes() != null) {
             p.setProductAttributes(entity.getProductAttributes().stream().map(this::toDomain).toList());
         }
+        p.setCategory(this.toDomain(entity.getCategory()));
         return p;
     }
 
@@ -26,5 +29,15 @@ public class EntityToDomainMapper {
         attribute.setDescription(entity.getDescription());
         attribute.setValue(entity.getValue());
         return attribute;
+    }
+
+    public Category toDomain(CategoryEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+        Category category = new Category();
+        category.setId(entity.getId());
+        category.setDescription(entity.getDescription());
+        return category;
     }
 }

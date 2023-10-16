@@ -1,4 +1,4 @@
-package com.audenyo.jpaplayground.config;
+package com.audenyo.jpaplayground.product.persistence.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableJpaRepositories(
-        basePackages = "com.audenyo.jpaplayground.repository"
+        basePackages = "com.audenyo.jpaplayground.product.persistence.repository"
 )
 @EnableTransactionManagement
 public class JpaConfig {

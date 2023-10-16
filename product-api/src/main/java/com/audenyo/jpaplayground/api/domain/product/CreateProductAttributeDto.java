@@ -1,7 +1,9 @@
-package com.audenyo.jpaplayground.api.domain;
+package com.audenyo.jpaplayground.api.domain.product;
 
 import com.audenyo.jpaplayground.product.command.CreateProductAttributePair;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+@JsonSerialize
 public class CreateProductAttributeDto {
     private final String description;
     private final String value;

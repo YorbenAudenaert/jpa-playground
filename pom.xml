@@ -25,6 +25,7 @@
         <module>product-adapters</module>
         <module>product-api</module>
         <module>product-application</module>
+        <module>product-integration-tests</module>
     </modules>
 
     <dependencyManagement>
@@ -32,6 +33,21 @@
             <dependency>
                 <groupId>com.audenyo</groupId>
                 <artifactId>product-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.audenyo</groupId>
+                <artifactId>product-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.audenyo</groupId>
+                <artifactId>product-jpa-adapter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.audenyo</groupId>
+                <artifactId>product-application</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

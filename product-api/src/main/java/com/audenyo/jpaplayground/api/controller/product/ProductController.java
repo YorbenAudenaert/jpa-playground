@@ -1,9 +1,6 @@
-package com.audenyo.jpaplayground.api.controller;
+package com.audenyo.jpaplayground.api.controller.product;
 
-import com.audenyo.jpaplayground.api.domain.CreateProductDto;
-import com.audenyo.jpaplayground.api.domain.GetProductDto;
-import com.audenyo.jpaplayground.api.domain.ProductAttributeDto;
-import com.audenyo.jpaplayground.api.domain.UpdateProductDto;
+import com.audenyo.jpaplayground.api.domain.product.*;
 import com.audenyo.jpaplayground.product.domain.Product;
 import com.audenyo.jpaplayground.product.service.CreateProductService;
 import com.audenyo.jpaplayground.product.service.GetProductService;
@@ -34,8 +31,8 @@ public class ProductController {
                 p.getDescription(),
                 p.getPrice(),
                 p.getProductAttributes().stream()
-                        .map(attr -> new ProductAttributeDto(attr.getId(), attr.getDescription(), attr.getProductAttributeValue().getValue()))
-                        .toList())).toList();
+                        .map(attr -> new ProductAttributeDto(attr.getId(), attr.getDescription(), attr.getValue()))
+                        .toList(), p.getCategory() != null ? p.getCategory().getDescription() : null)).toList();
     }
 
     @GetMapping("/{productId}")
@@ -45,13 +42,19 @@ public class ProductController {
                 product.getDescription(),
                 product.getPrice(),
                 product.getProductAttributes().stream()
-                        .map(attr -> new ProductAttributeDto(attr.getId(), attr.getDescription(), attr.getProductAttributeValue().getValue()))
-                        .toList());
+                        .map(attr -> new ProductAttributeDto(attr.getId(), attr.getDescription(), attr.getValue()))
+                        .toList(), product.getCategory() != null ? product.getCategory().getDescription() : null);
     }
 
     @PutMapping
     public String createProduct(@RequestBody CreateProductDto createProductDto) {
         return createProductService.createProduct(createProductDto.toCommand());
+    }
+
+    @PutMapping("/category")
+    public String createProductForCategory(
+            @RequestBody CreateProductWithCategoryDto createProductDto) {
+        return createProductService.createProductWithCategory(createProductDto.toCommand());
     }
 
     @PostMapping("/{productId}")
@@ -62,7 +65,21 @@ public class ProductController {
                 product.getDescription(),
                 product.getPrice(),
                 product.getProductAttributes().stream()
-                        .map(attr -> new ProductAttributeDto(attr.getId(), attr.getDescription(), attr.getProductAttributeValue().getValue()))
+                        .map(attr -> new ProductAttributeDto(attr.getId(), attr.getDescription(), attr.getValue()))
+                        .toList());
+    }
+
+    @PostMapping("/{productId}/{attributeId}")
+    public UpdateProductDto updateProductAttribute(
+            @PathVariable String productId,
+            @PathVariable String attributeId,
+            @RequestParam String value) {
+        Product product = updateProductService.updateProductAttributeValue(productId, attributeId, value);
+        return new UpdateProductDto(product.getId(),
+                product.getDescription(),
+                product.getPrice(),
+                product.getProductAttributes().stream()
+                        .map(attr -> new ProductAttributeDto(attr.getId(), attr.getDescription(), attr.getValue()))
                         .toList());
     }
 }

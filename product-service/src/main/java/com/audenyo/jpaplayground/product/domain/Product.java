@@ -7,6 +7,7 @@ public class Product {
     private double price;
     private String description;
     private List<ProductAttribute> productAttributes;
+    private Category category;
 
     public Product() {
     }
@@ -43,9 +44,17 @@ public class Product {
         this.productAttributes = productAttributes;
     }
 
-    public ProductAttribute getAttribute(String attributeId){
+    public ProductAttribute getAttribute(String attributeId) {
         return this.productAttributes.stream()
                 .filter(attr -> attr.getId().equals(attributeId))
                 .findFirst().orElseThrow();
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

@@ -1,4 +1,4 @@
-package com.audenyo.jpaplayground.api.domain;
+package com.audenyo.jpaplayground.api.domain.product;
 
 import java.util.List;
 

@@ -1,17 +1,15 @@
-package com.audenyo.jpaplayground.domain;
+package com.audenyo.jpaplayground.product.domain;
 
-import jakarta.persistence.*;
-
-@Entity
-public class ProductAttributeEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+public class Category {
     private String id;
-
     private String description;
 
-    private String value;
+    public Category() {
+    }
+
+    public Category(String description) {
+        this.description = description;
+    }
 
     public String getId() {
         return id;
@@ -27,13 +25,5 @@ public class ProductAttributeEntity {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getValue() {
-        return this.value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
     }
 }

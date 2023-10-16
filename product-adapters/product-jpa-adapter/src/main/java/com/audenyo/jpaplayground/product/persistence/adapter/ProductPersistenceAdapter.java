@@ -1,11 +1,11 @@
-package com.audenyo.jpaplayground.adapter;
+package com.audenyo.jpaplayground.product.persistence.adapter;
 
-import com.audenyo.jpaplayground.domain.ProductEntity;
-import com.audenyo.jpaplayground.mapper.DomainToEntityMapper;
-import com.audenyo.jpaplayground.mapper.EntityToDomainMapper;
+import com.audenyo.jpaplayground.product.persistence.domain.ProductEntity;
+import com.audenyo.jpaplayground.product.persistence.mapper.DomainToEntityMapper;
+import com.audenyo.jpaplayground.product.persistence.mapper.EntityToDomainMapper;
 import com.audenyo.jpaplayground.product.domain.Product;
 import com.audenyo.jpaplayground.product.port.ProductPersistencePort;
-import com.audenyo.jpaplayground.repository.ProductJpaRepository;
+import com.audenyo.jpaplayground.product.persistence.repository.ProductJpaRepository;
 import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
 
