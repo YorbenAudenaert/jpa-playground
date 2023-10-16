@@ -1,7 +1,9 @@
 package com.audenyo.jpaplayground.product.service;
 
+import com.audenyo.jpaplayground.product.domain.Category;
 import com.audenyo.jpaplayground.product.domain.Product;
 import com.audenyo.jpaplayground.product.domain.ProductAttribute;
+import com.audenyo.jpaplayground.product.port.CategoryPersistencePort;
 import com.audenyo.jpaplayground.product.port.ProductPersistencePort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,9 +19,11 @@ public class UpdateProductService {
     private static final Logger LOGGER = LoggerFactory.getLogger(UpdateProductService.class);
 
     private final ProductPersistencePort productPersistencePort;
+    private final CategoryPersistencePort categoryPersistencePort;
 
-    public UpdateProductService(ProductPersistencePort productPersistencePort) {
+    public UpdateProductService(ProductPersistencePort productPersistencePort, CategoryPersistencePort categoryPersistencePort) {
         this.productPersistencePort = productPersistencePort;
+        this.categoryPersistencePort = categoryPersistencePort;
     }
 
     @Transactional
@@ -49,7 +53,15 @@ public class UpdateProductService {
         return productPersistencePort.getProductById(productId);
     }
 
-    private Product updateProductAttributeDescription(String productId, String attributeId) {
+    @Transactional
+    public Product updateProductCategory(String productId, String categoryId) {
+        Product product = productPersistencePort.getProductById(productId);
+        Category category = categoryPersistencePort.getById(categoryId);
+        product.setCategory(category);
+        return productPersistencePort.saveProduct(product);
+    }
+
+    private void updateProductAttributeDescription(String productId, String attributeId) {
         LOGGER.info("Unexpectedly change the attribute description!!!");
         List<ProductAttribute> attributes = new ArrayList<>();
         String unexpectedChange = "unexpected";
@@ -58,6 +70,6 @@ public class UpdateProductService {
         attribute.setDescription(unexpectedChange);
         attributes.add(attribute);
         product.setProductAttributes(attributes);
-        return productPersistencePort.saveProduct(product);
+        productPersistencePort.saveProduct(product);
     }
 }

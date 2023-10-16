@@ -5,6 +5,8 @@ import com.audenyo.jpaplayground.api.domain.product.CreateProductAttributeDto;
 import com.audenyo.jpaplayground.api.domain.product.CreateProductDto;
 import com.audenyo.jpaplayground.product.persistence.domain.ProductAttributeEntity;
 import com.audenyo.jpaplayground.product.persistence.domain.ProductEntity;
+import com.audenyo.jpaplayground.product.persistence.domain.category.CategoryEntity;
+import com.audenyo.jpaplayground.product.persistence.repository.CategoryJpaRepository;
 import com.audenyo.jpaplayground.product.persistence.repository.ProductJpaRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,9 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(classes = ProductApplication.class)
@@ -28,12 +28,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class ProductControllerIT {
 
     private static final String PRODUCT_API_BASEURL = "/api/product";
+    private static final String CATEGORY_API_BASEURL = "/api/category";
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
     private ProductJpaRepository productJpaRepository;
+
+    @Autowired
+    private CategoryJpaRepository categoryJpaRepository;
 
 
     @Test
@@ -77,6 +81,36 @@ class ProductControllerIT {
 
         mockMvc.perform(post(String.format("%s/%s/%s?value=%s", PRODUCT_API_BASEURL, save.getId(), attributeId, newValue)))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void updateProductCategory() throws Exception {
+        String newCategory = "Electronics";
+        CategoryEntity category = new CategoryEntity();
+        category.setDescription(newCategory);
+        CategoryEntity savedCategory = categoryJpaRepository.save(category);
+        ProductEntity product = createProduct();
+        ProductEntity savedProduct = productJpaRepository.save(product);
+
+        mockMvc.perform(put(String.format("%s/%s/category?categoryId=%s", PRODUCT_API_BASEURL, savedProduct.getId(), savedCategory.getId())))
+                .andExpect(status().isOk());
+    }
+
+
+    @Test
+    void updateProductCategoryAndUpdateCategoryDescription() throws Exception {
+        String newCategory = "Electronics";
+        CategoryEntity category = new CategoryEntity();
+        category.setDescription(newCategory);
+        CategoryEntity savedCategory = categoryJpaRepository.save(category);
+        ProductEntity product = createProduct();
+        ProductEntity savedProduct = productJpaRepository.save(product);
+
+        mockMvc.perform(put(String.format("%s/%s/category?categoryId=%s", PRODUCT_API_BASEURL, savedProduct.getId(), savedCategory.getId())))
+                .andExpect(status().isOk());
+
+
+        mockMvc.perform(put(String.format("%s/%s?newDescription=%s", CATEGORY_API_BASEURL, savedCategory.getId(), "Hardware")));
     }
 
 

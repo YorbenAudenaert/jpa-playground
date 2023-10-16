@@ -21,8 +21,15 @@ public class CategoryController {
     }
 
     @GetMapping("/{categoryId}")
-    public GetCategoryDto getCategory(@PathVariable String categoryId){
+    public GetCategoryDto getCategory(@PathVariable String categoryId) {
         Category category = categoryService.getCategory(categoryId);
         return new GetCategoryDto(category.getId(), category.getDescription());
     }
+
+    @PutMapping("/{categoryId}")
+    public GetCategoryDto updateCategoryDescription(@PathVariable String categoryId, @RequestParam String newDescription) {
+        Category category = categoryService.updateCategoryDescription(categoryId, newDescription);
+        return new GetCategoryDto(category.getId(), category.getDescription());
+    }
+
 }

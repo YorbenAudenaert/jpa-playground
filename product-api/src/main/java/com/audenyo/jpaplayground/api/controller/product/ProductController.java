@@ -5,6 +5,7 @@ import com.audenyo.jpaplayground.product.domain.Product;
 import com.audenyo.jpaplayground.product.service.CreateProductService;
 import com.audenyo.jpaplayground.product.service.GetProductService;
 import com.audenyo.jpaplayground.product.service.UpdateProductService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -81,5 +82,11 @@ public class ProductController {
                 product.getProductAttributes().stream()
                         .map(attr -> new ProductAttributeDto(attr.getId(), attr.getDescription(), attr.getValue()))
                         .toList());
+    }
+
+    @PutMapping("/{productId}/category")
+    public ResponseEntity<Product> updateProductCategory(@PathVariable String productId, @RequestParam String categoryId) {
+        Product updatedProduct = updateProductService.updateProductCategory(productId, categoryId);
+        return ResponseEntity.ok(updatedProduct);
     }
 }
