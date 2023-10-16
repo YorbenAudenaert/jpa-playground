@@ -28,10 +28,10 @@ public class UpdateProductService {
 
     @Transactional
     public Product updateProductPrice(String id, double price) {
-        LOGGER.trace("Retrieving product info with ID {}", id);
+        LOGGER.info("Retrieving product info with ID {}", id);
         Product product = productPersistencePort.getProductById(id);
         product.setPrice(price);
-        LOGGER.trace("Updating product {} to price = {}", id, price);
+        LOGGER.info("Updating product {} to price = {}", id, price);
         return productPersistencePort.saveProduct(product);
     }
 
