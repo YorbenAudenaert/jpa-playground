@@ -1,6 +1,7 @@
 package com.audenyo.jpaplayground.product.persistence.adapter;
 
 import com.audenyo.jpaplayground.product.domain.Category;
+import com.audenyo.jpaplayground.product.exception.ObjectNotFoundException;
 import com.audenyo.jpaplayground.product.persistence.domain.category.CategoryEntity;
 import com.audenyo.jpaplayground.product.persistence.mapper.DomainToEntityMapper;
 import com.audenyo.jpaplayground.product.persistence.mapper.EntityToDomainMapper;
@@ -23,7 +24,7 @@ public class CategoryPersistenceAdapter implements CategoryPersistencePort {
 
     @Override
     public Category getById(String id) {
-        CategoryEntity category = categoryJpaRepository.getById(id);
+        CategoryEntity category = categoryJpaRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Category not found"));
         return entityToDomainMapper.toDomain(category);
     }
 

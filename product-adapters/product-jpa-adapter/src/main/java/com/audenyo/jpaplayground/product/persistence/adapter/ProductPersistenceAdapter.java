@@ -1,5 +1,6 @@
 package com.audenyo.jpaplayground.product.persistence.adapter;
 
+import com.audenyo.jpaplayground.product.exception.ObjectNotFoundException;
 import com.audenyo.jpaplayground.product.persistence.domain.ProductEntity;
 import com.audenyo.jpaplayground.product.persistence.mapper.DomainToEntityMapper;
 import com.audenyo.jpaplayground.product.persistence.mapper.EntityToDomainMapper;
@@ -26,7 +27,8 @@ public class ProductPersistenceAdapter implements ProductPersistencePort {
 
     @Override
     public Product getProductById(String id) {
-        return entityToDomainMapper.toDomain(productJpaRepository.getById(id));
+        ProductEntity product = productJpaRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Product not found"));
+        return entityToDomainMapper.toDomain(product);
     }
 
     @Override

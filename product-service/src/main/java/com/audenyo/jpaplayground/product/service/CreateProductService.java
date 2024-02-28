@@ -26,7 +26,9 @@ public class CreateProductService {
 
     @Transactional
     public String createProduct(CreateProductCommand command) {
+        Category category = categoryPersistencePort.getById(command.categoryId());
         Product product = getProductFromCommand(command);
+        product.setCategory(category);
         return productPersistencePort.saveProduct(product).getId();
     }
 
