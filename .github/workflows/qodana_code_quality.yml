@@ -26,3 +26,9 @@ jobs:
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN_948703275 }}
           QODANA_ENDPOINT: 'https://qodana.cloud'
+      - uses: joaofouyer/qodana-action-badge@0.5.0
+        with:
+          qodana-output: true
+          generate-coverage: true
+          generate-quality: true
+          generate-qodana-button: true
