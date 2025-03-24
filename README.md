@@ -50,3 +50,5 @@ commit will occur based on the state of the current transaction.
 
 After the update is performed we call the `getProductById()` method 4 more times. However this is not visible in the
 hibernate logging. The updated version of the productEntity is still in the persistent cache.
+
+
